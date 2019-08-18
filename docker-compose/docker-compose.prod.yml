@@ -1,0 +1,48 @@
+## USING THIS AS-IS IS FUCKING DANGEROUS.
+## DO IT AT YOUR OWN RISK.
+## CHANGE EVERYTHING.
+
+version: '2.1'
+services:
+# backing services
+    pg:
+        image: postgres:11-alpine
+        ports:
+            - 5432
+        volumes:
+            - './.data/pg:/var/lib/postgresql/data'
+        environment:
+            POSTGRES_PASSWORD: 19216801
+            POSTGRES_DB: roleypoly
+            POSTGRES_USER: roleypoly
+            POSTGRES_INITDB_ARGS: -A trust
+
+    redis:
+        image: redis:5-alpine
+        ports:
+            - 6379
+        
+# our services
+    auth:
+        image: roleypoly/auth
+        ports:
+            - 8080
+    
+    discord:
+        image: roleypoly/discord
+        ports:
+            - 8080
+        environment:
+            DISCORD_BOT_TOKEN: ${DISCORD_BOT_TOKEN:?Bot token unset.}
+            APP_URL: ${APP_URL:-https://roleypoly.com}
+    
+    platform:
+        image: roleypoly/platform
+        ports:
+            - 8080
+
+    ui:
+        image: roleypoly/ui
+        ports:
+            - 8080
+    
