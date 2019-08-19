@@ -1,0 +1,78 @@
+version: '3'
+
+networks: 
+    roachnet:
+        driver: bridge
+
+services:
+    crdb:
+        image: cockroachdb/cockroach:v19.1.4
+        command: start --insecure
+        volumes:
+            - "/tmp/roleypoly-data/crdb:/cockroach/cockroach-data"
+        ports:
+            - "8081:8080"
+            - "26257"
+        networks:
+            roachnet:
+                aliases: 
+                    - crdb1
+    crdb2:
+        image: cockroachdb/cockroach:v19.1.4
+        command: start --insecure --join=crdb1
+        volumes:
+            - "/tmp/roleypoly-data/crdb2:/cockroach/cockroach-data"
+        depends_on:
+            - crdb
+        ports:
+            - "8080"
+            - "26257"
+        networks:
+            roachnet:
+                aliases: 
+                    - crdb2
+    crdb3:
+        image: cockroachdb/cockroach:v19.1.4
+        command: start --insecure --join=crdb1
+        volumes:
+            - "/tmp/roleypoly-data/crdb3:/cockroach/cockroach-data"
+        depends_on:
+            - crdb
+        ports:
+            - "8080"
+            - "26257"
+        networks:
+            roachnet:
+                aliases: 
+                    - crdb3
+    crdb_gen:
+        image: cockroachdb/cockroach:v19.1.4
+        restart: "no"
+        command: gen haproxy --insecure --host=crdb1 --out /cfg/haproxy.cfg
+        depends_on:
+            - crdb
+            - crdb2
+            - crdb3
+        volumes:
+            - "/tmp/roleypoly-data/crdb_haproxy:/cfg"
+        networks:
+            roachnet:
+                aliases: 
+                    - crdb_gen
+    crdb_haproxy:
+        image: haproxy:2.0-alpine
+        # command: -c -f /haproxy.cfg
+        restart: always
+        depends_on:
+            - crdb
+            - crdb2
+            - crdb3
+            - crdb_gen
+        volumes:
+            - "/tmp/roleypoly-data/crdb_haproxy:/usr/local/etc/haproxy"
+        ports:
+            - "26257:26257"
+        networks:
+            roachnet:
+                aliases: 
+                    - crdb_proxy
