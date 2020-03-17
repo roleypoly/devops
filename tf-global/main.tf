@@ -12,5 +12,7 @@ provider "google-beta" {
 
 module "gke" {
   source = "./gke"
+
+  region = var.google-cloud-region-az
 }
 

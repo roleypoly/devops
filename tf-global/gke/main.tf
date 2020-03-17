@@ -1,5 +1,5 @@
 resource "google_container_cluster" "primary" {
-  location = "us-east1-d"
+  location = var.region
 
   name = "roleypoly-gke-us-east1-a"
 
@@ -12,7 +12,7 @@ output "cluster_name" {
 }
 
 resource "google_container_node_pool" "primary_static_nodes" {
-  location   = "us-east1-a"
+  location   = var.region
   cluster    = google_container_cluster.primary.name
   node_count = 1
 
@@ -32,7 +32,7 @@ resource "google_container_node_pool" "primary_static_nodes" {
 }
 
 resource "google_container_node_pool" "primary_preemptible_nodes" {
-  location   = "us-east1-a"
+  location   = var.region
   cluster    = google_container_cluster.primary.name
   node_count = 0
 

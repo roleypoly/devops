@@ -12,3 +12,8 @@ variable "google-cloud-region" {
   type        = string
   description = "GCP region"
 }
+
+variable "google-cloud-region-az" {
+  type        = string
+  description = "GCP region AZ"
+}
