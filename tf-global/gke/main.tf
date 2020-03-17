@@ -94,12 +94,12 @@ resource "google_secret_manager_secret" "gke-cert-key" {
   }
 }
 
-resource "google_secret_manager_secret_version" "gke-cert-ca-version" {
+resource "google_secret_manager_secret_version" "gke-cert-key-version" {
   provider = "google-beta"
 
   secret = "${google_secret_manager_secret.secret-basic.id}"
 
-  secret_data = "${google_container_cluster.primary.master_auth.0.client_ca}"
+  secret_data = "${google_container_cluster.primary.master_auth.0.client_key}"
 }
 
 resource "google_secret_manager_secret" "gke-cert-ca" {
