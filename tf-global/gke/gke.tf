@@ -8,7 +8,7 @@ resource "google_container_cluster" "primary" {
 resource "google_container_node_pool" "primary_static_nodes" {
   location   = "us-east1-a"
   cluster    = "${google_container_cluster.primary.name}"
-  node_count = 3
+  node_count = 1
 
   node_config {
     preemptible  = false
