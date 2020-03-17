@@ -128,5 +128,5 @@ resource "google_secret_manager_secret_version" "gke-cert-ca-version" {
 
   secret = google_secret_manager_secret.gke-cert-ca.id
 
-  secret_data = google_container_cluster.primary.master_auth.0.cluster_ca_cert
+  secret_data = google_container_cluster.primary.master_auth.0.cluster_ca_certificate
 }
