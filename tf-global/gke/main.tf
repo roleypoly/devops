@@ -1,5 +1,5 @@
 resource "google_container_cluster" "primary" {
-  location = "us-east1-a"
+  location = "us-east1-d"
 
   name = "roleypoly-gke-us-east1-a"
 
