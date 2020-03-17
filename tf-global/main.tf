@@ -9,3 +9,8 @@ provider "google-beta" {
     region = "${var.google-cloud-region}"
     credentials = "${var.google-cloud-svcacct}"
 }
+
+module "gke" {
+    source = "./gke"
+}
+
