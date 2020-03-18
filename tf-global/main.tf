@@ -10,9 +10,8 @@ provider "google-beta" {
   credentials = var.google-cloud-svcacct
 }
 
-module "gke" {
-  source = "./gke"
+module "gke-cluster-init" {
+  source = "./gke-cluster-init"
 
   region = var.google-cloud-region-az
 }
-
