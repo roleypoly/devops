@@ -21,3 +21,7 @@ variable "google-cloud-region-az" {
 variable "tf-oauth-id" {
   type = string
 }
+
+variable "tf-token" {
+  type = string
+}

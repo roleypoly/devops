@@ -3,9 +3,9 @@ resource "google_service_account" "svcacct" {
 }
 
 resource "google_service_account_key" "svcacct" {
-  service_account_id = google_service_account.svcacct.unique_id
+  service_account_id = google_service_account.svcacct.name
 
-  depends_on = [null_resource.pause]
+  depends_on = [null_resource.after-pause]
 }
 
 resource "google_service_account_iam_binding" "svcacct-role-viewer" {
@@ -99,11 +99,20 @@ resource "tfe_variable" "tfc-var-svcacct" {
 }
 
 // pause for eventual consistency
+resource "null_resource" "before-pause" {
+  depends_on = [google_service_account.svcacct]
+}
+
 resource "null_resource" "pause" {
   provisioner "local-exec" {
     command = "sleep 10"
   }
+
   triggers = {
-    before = google_service_account.svcacct.id
+    before = null_resource.before-pause.id
   }
+}
+
+resource "null_resource" "after-pause" {
+  depends_on = [null_resource.pause]
 }
