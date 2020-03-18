@@ -15,3 +15,10 @@ module "gke-cluster-init" {
 
   region = var.google-cloud-region-az
 }
+
+module "gke-cluster-bootstrap" {
+  source = "./gke-cluster-bootstrap"
+
+  region       = var.google-cloud-region-az
+  cluster-name = module.gke-cluster-init.cluster-name
+}
