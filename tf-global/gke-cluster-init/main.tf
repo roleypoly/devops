@@ -70,7 +70,7 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
 provider "kubernetes" {
   load_config_file = "false"
 
-  host = google_container_cluster.primary.endpoint
+  host = "https://${google_container_cluster.primary.endpoint}"
 
   username = google_container_cluster.primary.master_auth.0.username
   password = google_container_cluster.primary.master_auth.0.password
@@ -150,5 +150,5 @@ resource "google_secret_manager_secret_version" "gke-endpoint-version" {
 
   secret = google_secret_manager_secret.gke-endpoint.id
 
-  secret_data = google_container_cluster.primary.endpoint
+  secret_data = "https://${google_container_cluster.primary.endpoint}"
 }
