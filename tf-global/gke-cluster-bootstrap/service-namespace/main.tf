@@ -31,6 +31,7 @@ resource "kubernetes_namespace" "k8s-ns" {
 resource "kubernetes_role_binding" "k8s-role-binding" {
   metadata {
     namespace = var.name
+    name      = "edit-${var.name}"
   }
 
   subject {
