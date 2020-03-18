@@ -5,6 +5,8 @@ resource "google_container_cluster" "primary" {
 
   remove_default_node_pool = true
   initial_node_count       = 1
+
+  
 }
 
 resource "google_container_node_pool" "primary_static_nodes" {
@@ -70,11 +72,8 @@ provider "kubernetes" {
 
   host = google_container_cluster.primary.endpoint
 
-  client_certificate = google_container_cluster.primary.master_auth.0.client_certificate
-  client_key = google_container_cluster.primary.master_auth.0.client_key
-  # cluster_ca_certificate = google_container_cluster.primary.master_auth.0.cluster_ca_certificate
-
-  insecure = true // implicit trust is ok here.
+  username = google_container_cluster.primary.master_auth.0.username
+  password = google_container_cluster.primary.master_auth.0.password
 }
 
 
