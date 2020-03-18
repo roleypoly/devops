@@ -63,3 +63,27 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
     ]
   }
 }
+
+
+resource "google_secret_manager_secret" "gke-endpoint" {
+  provider = google-beta
+
+  secret_id = "gke-endpoint"
+
+  labels = {
+    type = "endpoint"
+    cluster = data.google_container_cluster.primary.name
+  }
+
+  replication {
+    automatic = true
+  }
+}
+
+resource "google_secret_manager_secret_version" "gke-endpoint-version" {
+  provider = google-beta
+
+  secret = google_secret_manager_secret.gke-endpoint.id
+
+  secret_data = "https://${data.google_container_cluster.primary.endpoint}"
+}

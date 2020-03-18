@@ -7,3 +7,11 @@ variable "cluster-name" {
   type = string
   description = "GKE Cluster Name"
 }
+
+variable "svcacct-email" {
+  type = string
+}
+
+variable "svcacct-token" {
+  type = string
+}
