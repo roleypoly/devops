@@ -9,14 +9,14 @@ resource "google_service_account_key" "svcacct" {
 }
 
 resource "google_project_iam_member" "svcacct-role-viewer" {
-  role   = "role/container.viewer"
+  role   = "roles/container.viewer"
   member = "serviceAccount:${google_service_account.svcacct.email}"
 
   depends_on = [null_resource.after-pause]
 }
 
 resource "google_project_iam_member" "svcacct-role-secrets" {
-  role   = "role/secretManager.secretAccessor"
+  role   = "roles/secretManager.secretAccessor"
   member = "serviceAccount:${google_service_account.svcacct.email}"
 
   depends_on = [null_resource.after-pause]
