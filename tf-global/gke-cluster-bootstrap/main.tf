@@ -1,5 +1,6 @@
 data "google_container_cluster" "primary" {
     name = var.cluster-name
+    location = var.region
 }
 
 provider "kubernetes" {
