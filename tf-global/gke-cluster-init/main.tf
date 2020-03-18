@@ -20,6 +20,12 @@ resource "google_container_node_pool" "primary_static_nodes" {
       disable-legacy-endpoints = "true"
     }
 
+    labels = {
+      node_type = "static"
+    }
+
+    disk_size_gb = 20
+
     oauth_scopes = [
       "https://www.googleapis.com/auth/logging.write",
       "https://www.googleapis.com/auth/monitoring",
@@ -45,6 +51,12 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
       disable-legacy-endpoints = "true"
     }
 
+    labels = {
+      node_type = "dynamic"
+    }
+
+    disk_size_gb = 20
+
     oauth_scopes = [
       "https://www.googleapis.com/auth/logging.write",
       "https://www.googleapis.com/auth/monitoring",
@@ -61,6 +73,8 @@ provider "kubernetes" {
   client_certificate = google_container_cluster.primary.master_auth.0.client_certificate
   client_key = google_container_cluster.primary.master_auth.0.client_key
   cluster_ca_certificate = google_container_cluster.primary.master_auth.0.cluster_ca_certificate
+
+  insecure = true // implicit trust is ok here.
 }
 
 
@@ -115,4 +129,27 @@ resource "google_secret_manager_secret_version" "svcacct-tf-admin-token-version"
   secret = google_secret_manager_secret.svcacct-tf-admin-token.id
 
   secret_data = base64decode(data.kubernetes_secret.svcacct-tf-admin-secret.data["token"])
+}
+
+resource "google_secret_manager_secret" "gke-endpoint" {
+  provider = google-beta
+
+  secret_id = "gke-endpoint"
+
+  labels = {
+    type = "endpoint"
+    cluster = google_container_cluster.primary.name
+  }
+
+  replication {
+    automatic = true
+  }
+}
+
+resource "google_secret_manager_secret_version" "gke-endpoint-version" {
+  provider = google-beta
+
+  secret = google_secret_manager_secret.gke-endpoint.id
+
+  secret_data = google_container_cluster.primary.endpoint
 }
