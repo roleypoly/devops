@@ -8,16 +8,18 @@ resource "google_service_account_key" "svcacct" {
   depends_on = [null_resource.after-pause]
 }
 
-resource "google_service_account_iam_binding" "svcacct-role-viewer" {
-  role               = "roles/container.viewer"
-  service_account_id = google_service_account_key.svcacct.service_account_id
-  members            = []
+resource "google_project_iam_member" "svcacct-role-viewer" {
+  role   = "role/container.viewer"
+  member = "serviceaccount:${google_service_account.svcacct.email}"
+
+  depends_on = [null_resource.after-pause]
 }
 
-resource "google_service_account_iam_binding" "svcacct-role-secret" {
-  role               = "roles/secretmanager.secretAccessor"
-  service_account_id = google_service_account_key.svcacct.service_account_id
-  members            = []
+resource "google_project_iam_member" "svcacct-role-secrets" {
+  role   = "role/secretManager.secretAccessor"
+  member = "serviceaccount:${google_service_account.svcacct.email}"
+
+  depends_on = [null_resource.after-pause]
 }
 
 resource "kubernetes_namespace" "k8s-ns" {
