@@ -10,13 +10,13 @@ resource "google_service_account_key" "svcacct" {
 
 resource "google_service_account_iam_binding" "svcacct-role-viewer" {
   role               = "roles/container.viewer"
-  service_account_id = google_service_account_key.svcacct.name
+  service_account_id = google_service_account_key.svcacct.service_account_id
   members            = []
 }
 
 resource "google_service_account_iam_binding" "svcacct-role-secret" {
   role               = "roles/secretmanager.secretAccessor"
-  service_account_id = google_service_account_key.svcacct.name
+  service_account_id = google_service_account_key.svcacct.service_account_id
   members            = []
 }
 
