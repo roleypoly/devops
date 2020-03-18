@@ -28,32 +28,13 @@ resource "kubernetes_namespace" "k8s-ns" {
   }
 }
 
-resource "kubernetes_role" "k8s-role" {
-  metadata {
-    namespace     = var.name
-    generate_name = var.name
-  }
-
-  rule {
-    api_groups = ["", "extensions", "apps"]
-    resources  = ["*"]
-    verbs      = ["*"]
-  }
-
-  rule {
-    api_groups = ["batch"]
-    resources  = ["jobs", "cronjobs"]
-    verbs      = ["*"]
-  }
-}
-
 resource "kubernetes_role_binding" "k8s-role-binding" {
   metadata {
     namespace = var.name
   }
 
   subject {
-    kind      = "ServiceAccount"
+    kind      = "User"
     name      = google_service_account.svcacct.email
     namespace = var.name
   }
@@ -61,7 +42,7 @@ resource "kubernetes_role_binding" "k8s-role-binding" {
   role_ref {
     api_group = "rbac.authorization.k8s.io"
     kind      = "Role"
-    name      = kubernetes_role.k8s-role.metadata.0.name
+    name      = "edit" // from GKE
   }
 }
 
