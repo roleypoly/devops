@@ -74,6 +74,8 @@ provider "kubernetes" {
 
   username = google_container_cluster.primary.master_auth.0.username
   password = google_container_cluster.primary.master_auth.0.password
+
+  insecure = true
 }
 
 
