@@ -16,7 +16,7 @@ resource "google_project_iam_member" "svcacct-role-viewer" {
 }
 
 resource "google_project_iam_member" "svcacct-role-secrets" {
-  role   = "roles/secretManager.secretAccessor"
+  role   = "roles/secretmanager.secretAccessor"
   member = "serviceAccount:${google_service_account.svcacct.email}"
 
   depends_on = [null_resource.after-pause]
