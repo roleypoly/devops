@@ -107,7 +107,7 @@ resource "null_resource" "pause" {
   provisioner "local-exec" {
     command = "sleep 10"
   }
-  triggers {
+  triggers = {
     before = google_service_account.svcacct.id
   }
 }
