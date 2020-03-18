@@ -3,14 +3,14 @@ resource "google_service_account" "svcacct" {
 }
 
 resource "google_service_account_key" "svcacct" {
-  service_account_id = google_service_account.svcacct.account_id
+  service_account_id = google_service_account.svcacct.unique_id
 
   depends_on = [null_resource.pause]
 }
 
 resource "google_service_account_iam_binding" "svcacct-role-viewer" {
   role               = "roles/container.viewer"
-  service_account_id = google_service_account.svcacct.account_id
+  service_account_id = google_service_account.svcacct.unique_id
   members            = []
 
   depends_on = [null_resource.pause]
@@ -18,7 +18,7 @@ resource "google_service_account_iam_binding" "svcacct-role-viewer" {
 
 resource "google_service_account_iam_binding" "svcacct-role-secret" {
   role               = "roles/secretmanager.secretAccessor"
-  service_account_id = google_service_account.svcacct.account_id
+  service_account_id = google_service_account.svcacct.unique_id
   members            = []
 
   depends_on = [null_resource.pause]
