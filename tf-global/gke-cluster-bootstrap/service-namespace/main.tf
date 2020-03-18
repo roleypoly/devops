@@ -10,18 +10,14 @@ resource "google_service_account_key" "svcacct" {
 
 resource "google_service_account_iam_binding" "svcacct-role-viewer" {
   role               = "roles/container.viewer"
-  service_account_id = google_service_account.svcacct.unique_id
+  service_account_id = google_service_account_key.svcacct.name
   members            = []
-
-  depends_on = [null_resource.pause]
 }
 
 resource "google_service_account_iam_binding" "svcacct-role-secret" {
   role               = "roles/secretmanager.secretAccessor"
-  service_account_id = google_service_account.svcacct.unique_id
+  service_account_id = google_service_account_key.svcacct.name
   members            = []
-
-  depends_on = [null_resource.pause]
 }
 
 resource "kubernetes_namespace" "k8s-ns" {
