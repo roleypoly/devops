@@ -63,7 +63,7 @@ resource "kubernetes_role_binding" "k8s-role-binding" {
   role_ref {
     api_group = "rbac.authorization.k8s.io"
     kind      = "Role"
-    name      = kubernetes_role.k8s-role.metadata.name
+    name      = kubernetes_role.k8s-role.metadata.0.name
   }
 }
 
