@@ -4,7 +4,7 @@ variable "region" {
 }
 
 variable "cluster-name" {
-  type = string
+  type        = string
   description = "GKE Cluster Name"
 }
 
@@ -13,5 +13,9 @@ variable "svcacct-email" {
 }
 
 variable "svcacct-token" {
+  type = string
+}
+
+variable "tf-oauth-id" {
   type = string
 }

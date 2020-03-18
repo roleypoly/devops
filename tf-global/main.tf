@@ -27,6 +27,12 @@ provider "google-beta" {
 }
 
 data "google_client_openid_userinfo" "userinfo" {}
+data "google_client_config" "clientconfig" {}
+
+locals {
+  tfSvcacctEmail = data.google_client_openid_userinfo.userinfo.email
+  tfSvcacctToken = data.google_client_config.clientconfig.access_token
+}
 
 module "gke-cluster-init" {
   source = "./gke-cluster-init"
@@ -37,10 +43,9 @@ module "gke-cluster-init" {
 module "gke-cluster-bootstrap" {
   source = "./gke-cluster-bootstrap"
 
-  region       = var.google-cloud-region-az
-  cluster-name = module.gke-cluster-init.cluster-name
-}
-
-locals {
-  tfSvcacctEmail = data.google_client_openid_userinfo.userinfo.email
+  region        = var.google-cloud-region-az
+  cluster-name  = module.gke-cluster-init.cluster-name
+  svcacct-email = local.tfSvcacctEmail
+  svcacct-token = local.tfSvcacctToken
+  tf-oauth-id   = var.tf-oauth-id
 }

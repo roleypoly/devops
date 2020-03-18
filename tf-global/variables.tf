@@ -17,3 +17,7 @@ variable "google-cloud-region-az" {
   type        = string
   description = "GCP region AZ"
 }
+
+variable "tf-oauth-id" {
+  type = string
+}
