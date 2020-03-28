@@ -178,6 +178,7 @@ resource "kubernetes_deployment" "deployment" {
       }
 
       spec {
+        automount_service_account_token  = true
         termination_grace_period_seconds = 300
         service_account_name             = kubernetes_service_account.sa.metadata.0.name
         node_selector = {
