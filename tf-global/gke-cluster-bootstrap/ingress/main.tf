@@ -190,10 +190,10 @@ resource "kubernetes_deployment" "deployment" {
           image = "quay.io/kubernetes-ingress-controller/nginx-ingress-controller:${var.nginx-ingress-version}"
           args = [
             "/nginx-ingress-controller",
-            "--configmap=$(POD_NAMESPACE)/nginx-configuration",
-            "--tcp-services-configmap=$(POD_NAMESPACE)/tcp-services",
-            "--udp-services-configmap=$(POD_NAMESPACE)/udp-services",
-            "--publish-service=$(POD_NAMESPACE)/ingress-nginx",
+            "--configmap=${local.ns}/${kubernetes_config_map.cm-nginx.metadata.0.name}",
+            "--tcp-services-configmap=${local.ns}/${kubernetes_config_map.cm-tcp.metadata.0.name}",
+            "--udp-services-configmap=${local.ns}/${kubernetes_config_map.cm-udp.metadata.0.name}",
+            "--publish-service=${local.ns}/ingress-nginx",
             "--annotations-prefix=nginx.ingress.kubernetes.io",
           ]
           security_context {
