@@ -19,3 +19,11 @@ variable "svcacct-token" {
 variable "tf-oauth-id" {
   type = string
 }
+
+variable "cloudflare-api-token" {
+  type = string
+}
+
+variable "cloudflare-zone-id" {
+  type = string
+}

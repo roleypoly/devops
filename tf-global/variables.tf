@@ -25,3 +25,15 @@ variable "tf-oauth-id" {
 variable "tf-token" {
   type = string
 }
+
+variable "cloudflare-api-token" {
+  type = string
+}
+
+variable "cloudflare-ca-token" {
+  type = string
+}
+
+variable "cloudflare-zone-id" {
+  type = string
+}

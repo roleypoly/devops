@@ -42,3 +42,16 @@ module "roleypoly-stg" {
   cluster-name  = var.cluster-name
   region        = var.region
 }
+
+module "nginx-ingress" {
+  source = "./ingress"
+}
+
+module "dns" {
+  source = "./dns"
+
+  ingress-name       = module.nginx-ingress.service-name
+  ingress-namespace  = module.nginx-ingress.service-namespace
+  cloudflare-zone-id = var.cloudflare-zone-id
+  record-name        = "${var.cluster-name}.kc"
+}
