@@ -1,14 +1,14 @@
 locals {
   ns = "ingress-nginx"
   labels = {
-    "app.kubernetes.io/name"    = "ingress-nginx"
+    "app.kubernetes.io/name"    = kubernetes_namespace.ns.metadata.0.name
     "app.kubernetes.io/part-of" = "ingress-nginx"
   }
 }
 
 resource "kubernetes_namespace" "ns" {
   metadata {
-    name   = local.ns
+    name   = "ingress-nginx"
     labels = local.labels
   }
 }
@@ -182,6 +182,7 @@ resource "kubernetes_deployment" "deployment" {
         service_account_name             = kubernetes_service_account.sa.metadata.0.name
         node_selector = {
           "kubernetes.io/os" = "linux"
+          node_type          = "static"
         }
 
         container {
