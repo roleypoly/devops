@@ -52,6 +52,7 @@ module "dns" {
 
   ingress-name       = module.nginx-ingress.service-name
   ingress-namespace  = module.nginx-ingress.service-namespace
+  ingress-endpoint   = module.nginx-ingress.service-endpoint
   cloudflare-zone-id = var.cloudflare-zone-id
   record-name        = "${var.cluster-name}.kc"
 }

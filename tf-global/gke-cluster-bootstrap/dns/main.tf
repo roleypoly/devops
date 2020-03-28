@@ -1,15 +1,8 @@
-data "kubernetes_service" "ingress" {
-  metadata {
-    name      = var.ingress-name
-    namespace = var.ingress-namespace
-  }
-}
-
 # Primary cluster hostname
 resource "cloudflare_record" "cluster" {
   zone_id = var.cloudflare-zone-id
   name    = var.record-name
-  value   = data.kubernetes_service.ingress.load_balancer_ingress.0.hostname
+  value   = var.ingress-endpoint.hostname
   type    = "CNAME"
   proxied = true
 }

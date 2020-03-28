@@ -1,7 +1,7 @@
 locals {
-  ns = "ingress-nginx"
+  ns = kubernetes_namespace.ns.metadata.0.name
   labels = {
-    "app.kubernetes.io/name"    = kubernetes_namespace.ns.metadata.0.name
+    "app.kubernetes.io/name"    = "ingress-nginx"
     "app.kubernetes.io/part-of" = "ingress-nginx"
   }
 }
