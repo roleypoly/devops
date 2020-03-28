@@ -2,7 +2,7 @@
 resource "cloudflare_record" "cluster" {
   zone_id = var.cloudflare-zone-id
   name    = var.record-name
-  value   = var.ingress-endpoint.hostname
+  value   = var.ingress-endpoint
   type    = "CNAME"
   proxied = true
 }

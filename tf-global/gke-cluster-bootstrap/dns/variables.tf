@@ -7,10 +7,7 @@ variable "ingress-namespace" {
 }
 
 variable "ingress-endpoint" {
-  type = object({
-    ip       = string
-    hostname = string
-  })
+  type = string
 }
 
 variable "cloudflare-zone-id" {
