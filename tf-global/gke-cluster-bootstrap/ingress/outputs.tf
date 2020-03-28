@@ -7,5 +7,5 @@ output "service-namespace" {
 }
 
 output "service-endpoint" {
-  value = kubernetes_service.svc.load_balancer_ingress.0.hostname
+  value = kubernetes_service.svc.load_balancer_ingress.0.ip
 }
