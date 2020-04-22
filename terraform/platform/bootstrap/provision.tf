@@ -42,6 +42,7 @@ provider "digitalocean" {
 */
 variable "tfc_token" { type = string }
 variable "tfc_org" { type = string }
+variable "tfc_oauth_token_id" { type = string }
 provider "tfe" {
   version = ">=0.15.0"
   token   = var.tfc_token

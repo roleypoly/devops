@@ -1,6 +1,6 @@
 locals {
   vaultGcsSvcacctKey = google_service_account_key.vault-svcacct-key.private_key
-  vaultGcsUrl        = google_service_account_key
+  vaultGcsUrl        = google_storage_bucket.vault-backend.url
 }
 
 resource "google_service_account" "vault-svcacct" {

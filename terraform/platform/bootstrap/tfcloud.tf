@@ -36,8 +36,8 @@ module "tfcws-services" {
   }
 
   vars = {
-    gcp_region  = var.gcp_region
-    gcp_project = var.gcp_project
+    gcp_region  = var.gcs_region
+    gcp_project = var.gcs_project
   }
 }
 
@@ -51,14 +51,4 @@ module "tfcws-app" {
   dependent_modules = ["tfc-workspace"]
   tfc_org           = var.tfc_org
   tfc_oauth_token_id = var.tfc_oauth_token_id
-
-  secret-vars = {
-    vault_gcs_token = local.vaultGcsSvcacctKey
-    vault_gcs_url   = local.vaultGcsUrl
-  }
-
-  vars = {
-    gcp_region  = var.gcp_region
-    gcp_project = var.gcp_project
-  }
 }
