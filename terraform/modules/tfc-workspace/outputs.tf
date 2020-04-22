@@ -1,3 +1,3 @@
 output "workspace" {
-    value = tfe_workspace.ws[*]
+  value = tfe_workspace.ws[*]
 }
