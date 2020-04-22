@@ -4,7 +4,7 @@ locals {
 }
 
 module "tfc-platform-workspaces" {
-    source = "github.com/roleypoly/devops.git//terraform/modules/tfc-workspace?ref=${local.branch}"
+    source = "github.com/roleypoly/devops.git//terraform/modules/tfc-workspace?ref=tf-redux"
 
     for_each {
         app = {
