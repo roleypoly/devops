@@ -1,25 +1,25 @@
 locals {
-    vaultGcsSvcacctKey = google_service_account_key.vault-svcacct-key.private_key
-    vaultGcsUrl = google_service_account_key
+  vaultGcsSvcacctKey = google_service_account_key.vault-svcacct-key.private_key
+  vaultGcsUrl        = google_service_account_key
 }
 
 resource "google_service_account" "vault-svcacct" {
-    account_id   = "vault-gcs"
-    display_name = "Vault GCS Svcacct"
+  account_id   = "vault-gcs"
+  display_name = "Vault GCS Svcacct"
 }
 
 resource "google_service_account_key" "vault-svcacct-key" {
-    service_account_id = google_service_account.vault-svcacct.name
+  service_account_id = google_service_account.vault-svcacct.name
 }
 
 resource "google_storage_bucket" "vault-backend" {
-    name = "roleypoly-vault"
+  name = "roleypoly-vault"
 }
 
 resource "google_storage_bucket_acl" "vault-backend-acl" {
-    bucket = google_storage_bucket.vault-backend.name
+  bucket = google_storage_bucket.vault-backend.name
 
-    role_entity = [
-        "WRITER:user-${google_service_account.vault-svcacct.email}"
-    ]
+  role_entity = [
+    "WRITER:user-${google_service_account.vault-svcacct.email}"
+  ]
 }
