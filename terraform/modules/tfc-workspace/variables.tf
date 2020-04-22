@@ -36,13 +36,14 @@ variable "dependent_modules" {
     default = []
 }
 
-/*
-    These are set intended to be set by upstream tfvars or tfc config
-*/
 variable "tfc_oauth_token_id" {
     type = string
 }
 
 variable "tfc_org" {
+    type = string
+}
+
+variable "tfc_webhook_url" {
     type = string
 }

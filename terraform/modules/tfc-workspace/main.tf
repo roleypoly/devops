@@ -17,6 +17,15 @@ resource "tfe_workspace" "ws" {
     }
 }
 
+resource "tfe_notification_configuration" "webhook" {
+    name    = "${var.workspace-name}-webhook"
+    enabled = true
+    destination_type = "slack"
+    triggers = ["run:created", "run:planning", "run:needs_attention", "run:applying", "run:completed", "run:errored"]
+    url = var.tfc_webhook_url
+    workspace_external_id = tfe_workspace.ws.external_id
+}
+
 resource "tfe_variable" "vars" {
     for_each = var.vars
     

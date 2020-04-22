@@ -4,14 +4,15 @@ locals {
 }
 
 module "tfcws-kubernetes" {
-  source            = "github.com/roleypoly/devops.git//terraform/modules/tfc-workspace?ref=tf-redux"
-  workspace-name    = "roleypoly-platform-kubernetes"
-  repo              = local.repo
-  branch            = local.branch
-  directory         = "terraform/platform/kubernetes"
-  auto_apply        = false
-  dependent_modules = []
-  tfc_org           = var.tfc_org
+  source             = "github.com/roleypoly/devops.git//terraform/modules/tfc-workspace?ref=tf-redux"
+  workspace-name     = "roleypoly-platform-kubernetes"
+  repo               = local.repo
+  branch             = local.branch
+  tfc_webhook_url    = var.tfc_webhook_url
+  directory          = "terraform/platform/kubernetes"
+  auto_apply         = false
+  dependent_modules  = []
+  tfc_org            = var.tfc_org
   tfc_oauth_token_id = var.tfc_oauth_token_id
 
   secret-vars = {
@@ -20,14 +21,15 @@ module "tfcws-kubernetes" {
 }
 
 module "tfcws-services" {
-  source            = "github.com/roleypoly/devops.git//terraform/modules/tfc-workspace?ref=tf-redux"
-  workspace-name    = "roleypoly-platform-services"
-  repo              = local.repo
-  branch            = local.branch
-  directory         = "terraform/platform/services"
-  auto_apply        = false
-  dependent_modules = ["nginx-ingress-controller"]
-  tfc_org           = var.tfc_org
+  source             = "github.com/roleypoly/devops.git//terraform/modules/tfc-workspace?ref=tf-redux"
+  workspace-name     = "roleypoly-platform-services"
+  repo               = local.repo
+  branch             = local.branch
+  tfc_webhook_url    = var.tfc_webhook_url
+  directory          = "terraform/platform/services"
+  auto_apply         = false
+  dependent_modules  = ["nginx-ingress-controller"]
+  tfc_org            = var.tfc_org
   tfc_oauth_token_id = var.tfc_oauth_token_id
 
   secret-vars = {
@@ -42,13 +44,14 @@ module "tfcws-services" {
 }
 
 module "tfcws-app" {
-  source            = "github.com/roleypoly/devops.git//terraform/modules/tfc-workspace?ref=tf-redux"
-  workspace-name    = "roleypoly-platform-app"
-  repo              = local.repo
-  branch            = local.branch
-  directory         = "terraform/platform/app"
-  auto_apply        = false
-  dependent_modules = ["tfc-workspace"]
-  tfc_org           = var.tfc_org
+  source             = "github.com/roleypoly/devops.git//terraform/modules/tfc-workspace?ref=tf-redux"
+  workspace-name     = "roleypoly-platform-app"
+  repo               = local.repo
+  branch             = local.branch
+  tfc_webhook_url    = var.tfc_webhook_url
+  directory          = "terraform/platform/app"
+  auto_apply         = false
+  dependent_modules  = ["tfc-workspace"]
+  tfc_org            = var.tfc_org
   tfc_oauth_token_id = var.tfc_oauth_token_id
 }
