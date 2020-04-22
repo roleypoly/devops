@@ -41,7 +41,7 @@ provider "digitalocean" {
     Terraform Cloud
 */
 variable "tfc_token" { type = string }
-variable "tfc_org" { type = string }
+variable "tfc_email" { type = string }
 variable "tfc_oauth_token_id" { type = string }
 variable "tfc_webhook_url" { type = string }
 provider "tfe" {

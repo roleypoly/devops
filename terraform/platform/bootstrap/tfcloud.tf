@@ -3,6 +3,11 @@ locals {
   branch = "tf-redux"
 }
 
+resource "tfe_organization" "org" {
+    name = "Roleypoly"
+    email = var.tfc_email
+}
+
 module "tfcws-kubernetes" {
   source             = "github.com/roleypoly/devops.git//terraform/modules/tfc-workspace?ref=tf-redux"
   workspace-name     = "roleypoly-platform-kubernetes"
@@ -12,7 +17,7 @@ module "tfcws-kubernetes" {
   directory          = "terraform/platform/kubernetes"
   auto_apply         = false
   dependent_modules  = []
-  tfc_org            = var.tfc_org
+  tfc_org            = tfe_organization.org.id
   tfc_oauth_token_id = var.tfc_oauth_token_id
 
   secret-vars = {
@@ -29,7 +34,7 @@ module "tfcws-services" {
   directory          = "terraform/platform/services"
   auto_apply         = false
   dependent_modules  = ["nginx-ingress-controller"]
-  tfc_org            = var.tfc_org
+  tfc_org            = tfe_organization.org.id
   tfc_oauth_token_id = var.tfc_oauth_token_id
 
   secret-vars = {
@@ -52,6 +57,6 @@ module "tfcws-app" {
   directory          = "terraform/platform/app"
   auto_apply         = false
   dependent_modules  = ["tfc-workspace"]
-  tfc_org            = var.tfc_org
+  tfc_org            = tfe_organization.org.id
   tfc_oauth_token_id = var.tfc_oauth_token_id
 }
