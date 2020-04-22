@@ -6,7 +6,7 @@ locals {
 module "tfc-platform-workspaces" {
     source = "github.com/roleypoly/devops.git//terraform/modules/tfc-workspace?ref=tf-redux"
 
-    for_each {
+    for_each = {
         app = {
             dependent_modules = [
                 "tfc-workspace"
@@ -41,4 +41,7 @@ module "tfc-platform-workspaces" {
     directory         = "terraform/platform/${each.key}"
     auto_apply        = false
     dependent_modules = each.value.dependent_modules
+
+    tfc_org            = var.tfc_org
+    tf_oauth_token_id  = 
 }
