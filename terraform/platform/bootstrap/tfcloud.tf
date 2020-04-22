@@ -12,7 +12,7 @@ module "tfcws-kubernetes" {
   auto_apply        = false
   dependent_modules = []
   tfc_org           = var.tfc_org
-  tf_oauth_token_id = var.tfc_oauth_token_id
+  tfc_oauth_token_id = var.tfc_oauth_token_id
 
   secret-vars = {
     digitalocean_token = var.digitalocean_token
@@ -28,7 +28,7 @@ module "tfcws-services" {
   auto_apply        = false
   dependent_modules = ["nginx-ingress-controller"]
   tfc_org           = var.tfc_org
-  tf_oauth_token_id = var.tfc_oauth_token_id
+  tfc_oauth_token_id = var.tfc_oauth_token_id
 
   secret-vars = {
     vault_gcs_token = local.vaultGcsSvcacctKey
@@ -50,7 +50,7 @@ module "tfcws-app" {
   auto_apply        = false
   dependent_modules = ["tfc-workspace"]
   tfc_org           = var.tfc_org
-  tf_oauth_token_id = var.tfc_oauth_token_id
+  tfc_oauth_token_id = var.tfc_oauth_token_id
 
   secret-vars = {
     vault_gcs_token = local.vaultGcsSvcacctKey
