@@ -4,7 +4,7 @@ locals {
 }
 
 resource "tfe_workspace" "ws" {
-    name              = var.name
+    name              = var.workspace-name
     organization      = var.tfc_org
     auto_apply        = var.auto_apply
     trigger_prefixes  = concat([var.directory], local.dependentModulesPathed)
