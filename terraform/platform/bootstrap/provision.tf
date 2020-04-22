@@ -17,10 +17,10 @@ variable "gcs_token" { type = string }
 variable "gcs_region" { type = string }
 variable "gcs_project" { type = string }
 provider "google" {
-  version      = ">=3.18.0"
-  project      = var.gcs_project
-  region       = var.gcs_region
-  access_token = var.gcs_token
+  version     = ">=3.18.0"
+  project     = var.gcs_project
+  region      = var.gcs_region
+  credentials = var.gcs_token
 
   scopes = [
     "https://www.googleapis.com/auth/devstorage.full_control",
