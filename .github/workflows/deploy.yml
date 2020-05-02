@@ -13,7 +13,7 @@ jobs:
         TARGET_APP: ${{ github.event.client_payload.app }}
         TARGET_TAG: ${{ github.event.client_payload.new_tag }}
         
-    jobs:
+    steps:
       - uses: actions/checkout@master
 
       - name: Change terraform/app/tags.auto.tfvars.json -- ${{ github.event.client_payload.app }} on ${{ github.event.client_payload.environment }} to ${{ github.event.client_payload.new_tag }}
