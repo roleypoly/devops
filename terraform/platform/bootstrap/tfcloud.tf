@@ -1,6 +1,6 @@
 locals {
   repo   = "roleypoly/devops"
-  branch = "tf-redux"
+  branch = "master"
   tfc_org = "Roleypoly"
 }
 
