@@ -1,0 +1,46 @@
+name: Deploy
+
+on: repository_dispatch
+
+jobs:
+  change_version:
+    name: Change Version
+    runs-on: ubuntu
+    defaults:
+      env:
+        TARGET_FILE: ./terraform/app/tags.auto.tfvars.json
+        TARGET_ENV: ${{ github.event.client_payload.environment }}
+        TARGET_APP: ${{ github.event.client_payload.app }}
+        TARGET_TAG: ${{ github.event.client_payload.new_tag }}
+        
+    jobs:
+      - uses: actions/checkout@master
+
+      - name: Change terraform/app/tags.auto.tfvars.json -- ${{ github.event.client_payload.app }} on ${{ github.event.client_payload.environment }} to ${{ github.event.client_payload.new_tag }}
+        run: |
+          mv "${TARGET_FILE}" "${TARGET_FILE}~"
+          cat "${TARGET_FILE}~" | jq ".deployment_env.${TARGET_ENV}.${TARGET_APP} |= \"${TARGET_TAG}\"" > "${TARGET_FILE}"
+          rm "${TARGET_FILE}~"
+
+      - name: Setup Git
+        run: |
+          git config --local user.email "gh-automation@roleypoly.com"
+          git config --local user.name "Roleypoly GitOps Automation"
+          
+          eval `ssh-agent -t 60 -s`
+          echo "$DEPLOY_KEY" | ssh-add -
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+          git remote set-url origin "$(git config --get remote.origin.url | sed 's#http.*com/#git@github.com:#g')"    
+        env:
+          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+
+      - name: Push changes
+        run: |
+          git add ${TARGET_FILE}
+          git commit -m "gitops(deploy): updated ${TARGET_APP} in ${TARGET_ENV} to ${TARGET_TAG}"
+          git push
+      
+      - name: Cleanup Git
+        run: |
+          ssh-agent -k
