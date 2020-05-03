@@ -8,13 +8,12 @@ jobs:
   change_version:
     name: Change Version
     runs-on: ubuntu
-    defaults:
-      env:
-        TARGET_FILE: ./terraform/app/tags.auto.tfvars.json
-        TARGET_ENV: ${{ github.event.client_payload.environment }}
-        TARGET_APP: ${{ github.event.client_payload.app }}
-        TARGET_TAG: ${{ github.event.client_payload.new_tag }}
-        TARGET_DESCRIPTION: ${{ github.event.client_payload.description }}
+    env:
+      TARGET_FILE: ./terraform/app/tags.auto.tfvars.json
+      TARGET_ENV: ${{ github.event.client_payload.environment }}
+      TARGET_APP: ${{ github.event.client_payload.app }}
+      TARGET_TAG: ${{ github.event.client_payload.new_tag }}
+      TARGET_DESCRIPTION: ${{ github.event.client_payload.description }}
         
     steps:
       - uses: actions/checkout@master
