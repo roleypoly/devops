@@ -23,6 +23,7 @@ jobs:
           mv "${TARGET_FILE}" "${TARGET_FILE}~"
           cat "${TARGET_FILE}~" | jq ".deployment_env.${TARGET_ENV}.${TARGET_APP} |= \"${TARGET_TAG}\"" > "${TARGET_FILE}"
           rm "${TARGET_FILE}~"
+          cat "${TARGET_FILE}" | grep -E ${TARGET_TAG}
 
       - name: Setup Git
         run: |
@@ -31,6 +32,8 @@ jobs:
           
           eval `ssh-agent -t 60 -s`
           echo "$DEPLOY_KEY" | ssh-add -
+          mkdir ~/.ssh/
+          chmod 400 ~/.ssh
           ssh-keyscan github.com >> ~/.ssh/known_hosts
 
           git remote set-url origin "$(git config --get remote.origin.url | sed 's#http.*com/#git@github.com:#g')"    
