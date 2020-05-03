@@ -26,21 +26,14 @@ jobs:
           cat "${TARGET_FILE}" | grep -E ${TARGET_TAG}
 
       - name: Setup Git
+        uses: webfactory/ssh-agent@v0.2.0
+        with:
+          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
+        
+        - name: Push changes
         run: |
           git config --local user.email "gh-automation@roleypoly.com"
           git config --local user.name "Roleypoly GitOps Automation"
-          
-          echo "${{ secrets.DEPLOY_KEY }}" | tee ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          git remote set-url origin "$(git config --get remote.origin.url | sed 's#http.*com/#git@github.com:#g')"    
-        
-
-      - name: Push changes
-        run: |
           git add ${TARGET_FILE}
           git commit -m "gitops(deploy): updated ${TARGET_APP} in ${TARGET_ENV} to ${TARGET_TAG}\n\n${TARGET_DESCRIPTION}"
           git push
-      
-      - name: Cleanup Git
-        run: |
-          ssh-agent -k
