@@ -1,6 +1,8 @@
 name: Deploy
 
 on: repository_dispatch
+  types:
+    - deploy
 
 jobs:
   change_version:
@@ -12,6 +14,7 @@ jobs:
         TARGET_ENV: ${{ github.event.client_payload.environment }}
         TARGET_APP: ${{ github.event.client_payload.app }}
         TARGET_TAG: ${{ github.event.client_payload.new_tag }}
+        TARGET_DESCRIPTION: ${{ github.event.client_payload.description }}
         
     steps:
       - uses: actions/checkout@master
@@ -38,7 +41,7 @@ jobs:
       - name: Push changes
         run: |
           git add ${TARGET_FILE}
-          git commit -m "gitops(deploy): updated ${TARGET_APP} in ${TARGET_ENV} to ${TARGET_TAG}"
+          git commit -m "gitops(deploy): updated ${TARGET_APP} in ${TARGET_ENV} to ${TARGET_TAG}\n\n${TARGET_DESCRIPTION}"
           git push
       
       - name: Cleanup Git
