@@ -1,8 +1,7 @@
 name: Deploy
 
 on: repository_dispatch
-  types:
-    - deploy
+  types: [deploy]
 
 jobs:
   change_version:
