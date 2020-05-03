@@ -11,6 +11,9 @@ resource "digitalocean_kubernetes_cluster" "cluster" {
     name       = "default-worker-pool"
     size       = "s-2vcpu-2gb"
     node_count = 3
+    labels = {
+      node_type = "static"
+    }
   }
 }
 
