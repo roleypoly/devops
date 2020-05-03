@@ -7,7 +7,7 @@ module "cluster-dns" {
   source             = "github.com/roleypoly/devops.git//terraform/modules/cloudflare-cluster-dns"
   ingress-name       = module.ingress-controller.service-name
   ingress-namespace  = module.ingress-controller.service-namespace
-  ingress-endpoint   = module.ingress.service-endpoint
+  ingress-endpoint   = module.ingress-controller.service-endpoint
   cloudflare-zone-id = var.cloudflare_zone_id
   record-name        = "roleypoly-nyc.kc"
 }

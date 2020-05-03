@@ -49,3 +49,6 @@ provider "kubernetes" {
 */
 variable "vault_gcs_token" { type = string }
 variable "vault_gcs_url" { type = string }
+variable "gcp_project" { type = string }
+variable "gcp_region" { type = string }
+
