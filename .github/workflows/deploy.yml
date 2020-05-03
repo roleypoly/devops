@@ -30,10 +30,10 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.DEPLOY_KEY }}
         
-        - name: Push changes
-        run: |
-          git config --local user.email "gh-automation@roleypoly.com"
-          git config --local user.name "Roleypoly GitOps Automation"
-          git add ${TARGET_FILE}
-          git commit -m "gitops(deploy): updated ${TARGET_APP} in ${TARGET_ENV} to ${TARGET_TAG}\n\n${TARGET_DESCRIPTION}"
-          git push
+      - name: Push changes
+      run: |
+        git config --local user.email "gh-automation@roleypoly.com"
+        git config --local user.name "Roleypoly GitOps Automation"
+        git add ${TARGET_FILE}
+        git commit -m "gitops(deploy): updated ${TARGET_APP} in ${TARGET_ENV} to ${TARGET_TAG}\n\n${TARGET_DESCRIPTION}"
+        git push
