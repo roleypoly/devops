@@ -17,15 +17,16 @@ module "tfcws-services" {
   tfc_oauth_token_id = var.tfc_oauth_token_id
 
   secret-vars = {
-    digitalocean_token = var.digitalocean_token
-    cloudflare_token   = var.cloudflare_token
-    cloudflare_email   = var.cloudflare_email
-    cloudflare_zone_id = var.cloudflare_zone_id
-    vault_gcs_token    = local.vaultGcsSvcacctKey
-    vault_gcs_url      = local.vaultGcsUrl
-    k8s_endpoint       = local.k8sEndpoint
-    k8s_token          = local.k8sToken
-    k8s_cert           = local.k8sCert
+    digitalocean_token         = var.digitalocean_token
+    cloudflare_origin_ca_token = var.cloudflare_origin_ca_token
+    cloudflare_zone_id         = var.cloudflare_zone_id
+    cloudflare_token           = var.cloudflare_token
+    cloudflare_email           = var.cloudflare_email
+    vault_gcs_token            = local.vaultGcsSvcacctKey
+    vault_gcs_url              = local.vaultGcsUrl
+    k8s_endpoint               = local.k8sEndpoint
+    k8s_token                  = local.k8sToken
+    k8s_cert                   = local.k8sCert
   }
 
   vars = {
