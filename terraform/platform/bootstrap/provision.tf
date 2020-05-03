@@ -48,3 +48,10 @@ provider "tfe" {
   version = ">=0.15.0"
   token   = var.tfc_token
 }
+
+/*
+    Cloudflare (for tfc vars)
+*/
+variable "cloudflare_token" { type = string }
+variable "cloudflare_email" { type = string }
+variable "cloudflare_zone_id" { type = string }
