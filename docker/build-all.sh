@@ -63,7 +63,7 @@ build() {
 }
 
 run() {
-    dockerfiles=$(find . -type file -name 'Dockerfile*', -not -name '*.yml' -d 2)
+    dockerfiles=$(find . -name "Dockerfile*" ! -name "*.yml")
     for dockerfile in $dockerfiles; do
         build_tag=$(basename $dockerfile | sed "s/Dockerfile-*//g")
         build $dockerfile $build_tag
