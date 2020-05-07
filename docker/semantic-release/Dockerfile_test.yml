@@ -1,0 +1,13 @@
+schemaVersion: "2.0.0"
+
+metadataTest:
+  env:
+    - key: CI
+      value: true
+  cmd: ["/bin/sh", "-c", "semantic-release"]
+
+commandTests:
+  - name: "semantic-release"
+    command: "semantic-release"
+    expectedError: [".*ENOGITREPO.*"]
+    exitCode: 1

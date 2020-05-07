@@ -1,0 +1,25 @@
+name: Docker CI
+
+on:
+  push:
+    paths:
+      - docker/*
+      - .github/workflows/docker.yml
+  schedule:
+    - cron: "0 12 * * 2" # 12 noon every tuesday
+
+jobs:
+  build_images:
+    name: Build Images
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Docker Login
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login --password-stdin
+
+      - name: Docker Builds
+        run: |
+          cd docker
+          bash ./build-all.sh
