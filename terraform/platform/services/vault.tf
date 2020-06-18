@@ -109,7 +109,7 @@ resource "kubernetes_pod" "vault" {
 
     volume {
       name      = "vault-config"
-      configmap {
+      config_map {
         name = kubernetes_config_map.vault-cm.metadata.0.name
       }
     }
