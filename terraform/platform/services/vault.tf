@@ -81,10 +81,10 @@ resource "kubernetes_pod" "vault" {
         name       = "vault-secrets"
         read_only  = true
       }
+      
       volume_mount {
         mount_path = "/vault/config"
         name       = "vault-config"
-        read_only  = true
       }
 
       security_context {
