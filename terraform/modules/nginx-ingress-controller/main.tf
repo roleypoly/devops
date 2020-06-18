@@ -325,7 +325,7 @@ resource "kubernetes_service" "svc" {
   lifecycle {
     ignore_changes = [
       // Ignore annotation DO adds to this
-      metadata[*]annotations["kubernetes.digitalocean.com/load-balancer-id"],
+      metadata[*].annotations["kubernetes.digitalocean.com/load-balancer-id"],
     ]
   }
 }
