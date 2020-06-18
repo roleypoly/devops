@@ -92,7 +92,7 @@ resource "kubernetes_deployment" "vault" {
 
           env {
             name  = "GOOGLE_APPLICATION_CREDENTIALS"
-            value = "/vault/config/vault-config.json"
+            value = "/vault/mounted-secrets/vault-service-account.json"
           }
 
           volume_mount {
