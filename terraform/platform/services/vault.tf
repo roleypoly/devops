@@ -102,12 +102,16 @@ resource "kubernetes_pod" "vault" {
 
     volume {
       name   = "vault-secrets"
-      secret = kubernetes_secret.vault-svcacct.metadata.0.name
+      secret {
+        secret_name = kubernetes_secret.vault-svcacct.metadata.0.name
+      }
     }
 
     volume {
       name      = "vault-config"
-      configmap = kubernetes_config_map.vault-cm.metadata.0.name
+      configmap {
+        name = kubernetes_config_map.vault-cm.metadata.0.name
+      }
     }
   }
 }
