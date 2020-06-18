@@ -5,7 +5,7 @@ locals {
 
 resource "google_service_account" "vault-svcacct" {
   account_id   = "vault-gcs"
-  display_name = "Vault GCS Svcacct"
+  display_name = "Vault Svcacct"
 }
 
 resource "google_service_account_key" "vault-svcacct-key" {
@@ -23,3 +23,4 @@ resource "google_storage_bucket_acl" "vault-backend-acl" {
     "WRITER:user-${google_service_account.vault-svcacct.email}"
   ]
 }
+

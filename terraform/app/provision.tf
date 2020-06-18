@@ -4,17 +4,8 @@ terraform {
   backend "remote" {
     organization = "Roleypoly"
 
-    workspace {
-        prefix = "roleypoly-app-"
+    workspaces {
+      prefix = "roleypoly-app-"
     }
   }
-}
-
-variable "deployment_env" {
-    type = map(map(string))
-}
-
-variable "env_tag" {
-    type = string
-    description = "One of: production, staging, test"
 }
