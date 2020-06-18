@@ -39,8 +39,7 @@ resource "kubernetes_config_map" "vault-cm" {
       // Storage with GCS
       storage = {
         gcs = {
-          bucket      = "roleypoly-vault",
-          credentials = "/vault/mounted-secrets/vault-service-account.json",
+          bucket = "roleypoly-vault",
         }
       },
 
@@ -90,6 +89,11 @@ resource "kubernetes_deployment" "vault" {
         container {
           image = "vault:1.4.2"
           name  = "vault"
+
+          env {
+            name  = "GOOGLE_APPLICATION_CREDENTIALS"
+            value = "/vault/config/vault-config.json"
+          }
 
           volume_mount {
             mount_path = "/vault/mounted-secrets"
