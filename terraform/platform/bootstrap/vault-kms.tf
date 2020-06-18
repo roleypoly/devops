@@ -15,12 +15,7 @@ locals {
 
 data "google_iam_policy" "vault" {
   binding {
-    role    = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
-    members = local.iam_members
-  }
-
-  binding {
-    role    = "cloudkms.cryptoKeys.get"
+    role    = "roles/cloudkms.owner"
     members = local.iam_members
   }
 }
@@ -39,3 +34,4 @@ resource "google_kms_crypto_key" "vault-key" {
     prevent_destroy = true
   }
 }
+
