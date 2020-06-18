@@ -65,7 +65,9 @@ resource "kubernetes_config_map" "vault-cm" {
   }
 }
 
-resource "kubernetes_pod" "vault" {
+
+
+resource "kubernetes_deployment" "vault" {
   metadata {
     name      = "vault"
     namespace = local.vaultNs
@@ -73,46 +75,55 @@ resource "kubernetes_pod" "vault" {
   }
 
   spec {
-    container {
-      image = "vault:1.4.2"
-      name  = "vault"
+    replicas = 1
 
-      volume_mount {
-        mount_path = "/vault/mounted-secrets"
-        name       = "vault-secrets"
-        read_only  = true
-      }
+    selector {
+      match_labels = local.vaultLabels
+    }
 
-      volume_mount {
-        mount_path = "/vault/config/vault-config.json"
-        name       = "vault-config"
-        sub_path   = "vault-config.json"
-      }
 
-      security_context {
-        capabilities {
-          add = ["IPC_LOCK"]
+    template {
+      container {
+        image = "vault:1.4.2"
+        name  = "vault"
+
+        volume_mount {
+          mount_path = "/vault/mounted-secrets"
+          name       = "vault-secrets"
+          read_only  = true
+        }
+
+        volume_mount {
+          mount_path = "/vault/config/vault-config.json"
+          name       = "vault-config"
+          sub_path   = "vault-config.json"
+        }
+
+        security_context {
+          capabilities {
+            add = ["IPC_LOCK"]
+          }
         }
       }
-    }
 
-    node_selector = {
-      node_type = "static"
-    }
-
-    restart_policy = "Always"
-
-    volume {
-      name = "vault-secrets"
-      secret {
-        secret_name = kubernetes_secret.vault-svcacct.metadata.0.name
+      node_selector = {
+        node_type = "static"
       }
-    }
 
-    volume {
-      name = "vault-config"
-      config_map {
-        name = kubernetes_config_map.vault-cm.metadata.0.name
+      restart_policy = "Always"
+
+      volume {
+        name = "vault-secrets"
+        secret {
+          secret_name = kubernetes_secret.vault-svcacct.metadata.0.name
+        }
+      }
+
+      volume {
+        name = "vault-config"
+        config_map {
+          name = kubernetes_config_map.vault-cm.metadata.0.name
+        }
       }
     }
   }
