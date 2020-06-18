@@ -321,4 +321,11 @@ resource "kubernetes_service" "svc" {
       target_port = "https"
     }
   }
+
+  lifecycle {
+    ignore_changes = [
+      // Ignore annotation DO adds to this
+      metadata.0.annotations["kubernetes.digitalocean.com/load-balancer-id"],
+    ]
+  }
 }
