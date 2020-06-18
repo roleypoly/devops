@@ -1,6 +1,6 @@
 name: Deploy
 
-on: 
+on:
   repository_dispatch:
     types: [deploy]
 
@@ -14,7 +14,7 @@ jobs:
       TARGET_APP: ${{ github.event.client_payload.app }}
       TARGET_TAG: ${{ github.event.client_payload.new_tag }}
       TARGET_DESCRIPTION: ${{ github.event.client_payload.description }}
-        
+
     steps:
       - uses: actions/checkout@master
 
@@ -29,7 +29,7 @@ jobs:
         uses: webfactory/ssh-agent@v0.2.0
         with:
           ssh-private-key: ${{ secrets.DEPLOY_KEY }}
-        
+
       - name: Push changes
         run: |
           git config --local user.email "gh-automation@roleypoly.com"

@@ -33,7 +33,7 @@ resource "google_kms_key_ring_iam_policy" "vault-binding" {
 resource "google_kms_crypto_key" "vault-key" {
   name            = "vault-key"
   key_ring        = google_kms_key_ring.vault-kms-ring.id
-  rotation_period = "12h"
+  rotation_period = "43200s" // 12h
 
   lifecycle {
     prevent_destroy = true
