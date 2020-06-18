@@ -15,7 +15,7 @@ locals {
 
 data "google_iam_policy" "vault" {
   binding {
-    role    = "roles/cloudkms.owner"
+    role    = "roles/editor"
     members = local.iam_members
   }
 }
