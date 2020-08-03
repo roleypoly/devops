@@ -22,11 +22,17 @@ resource "kubernetes_service_account" "sa" {
   }
 }
 
-data "kubernetes_secret" "sa-key" {
+resource "kubernetes_secret" "sa-key" {
   metadata {
-    name      = kubernetes_service_account.sa.default_secret_name
+    name      = "${local.ns}-sa-tf-key"
     namespace = local.ns
+    labels    = local.labels
+    annotations = {
+      "kubernetes.io/service-account.name" = kubernetes_service_account.sa.metadata.0.name
+    }
   }
+
+  type = "kubernetes.io/service-account-token"
 }
 
 resource "kubernetes_role_binding" "sa-admin-rb" {
