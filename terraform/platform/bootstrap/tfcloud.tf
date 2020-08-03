@@ -48,7 +48,15 @@ module "tfcws-app" {
   tfc_oauth_token_id = var.tfc_oauth_token_id
 
   secret-vars = {
-    cloudflare_token = var.cloudflare_token
-    cloudflare_email = var.cloudflare_email
+    k8s_endpoint       = local.k8sEndpoint
+    k8s_token          = local.k8sToken
+    k8s_cert           = local.k8sCert
+    cloudflare_zone_id = var.cloudflare_zone_id
+    cloudflare_token   = var.cloudflare_token
+    cloudflare_email   = var.cloudflare_email
+    tfc_token          = var.tfc_token
+    tfc_email          = var.tfc_email
+    tfc_oauth_token_id = var.tfc_oauth_token_id
+    tfc_webhook_url    = var.tfc_webhook_url
   }
 }

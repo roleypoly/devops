@@ -11,15 +11,6 @@ terraform {
 }
 
 /*
-    DigitalOcean
-*/
-variable "digitalocean_token" { type = string }
-provider "digitalocean" {
-  version = ">=1.16.0"
-  token   = var.digitalocean_token
-}
-
-/*
     Terraform Cloud
 */
 variable "tfc_token" { type = string }
@@ -37,7 +28,12 @@ provider "tfe" {
 variable "cloudflare_token" { type = string }
 variable "cloudflare_email" { type = string }
 variable "cloudflare_zone_id" { type = string }
-variable "cloudflare_origin_ca_token" { type = string }
+provider "cloudflare" {
+  version              = ">=2.0"
+  email                = var.cloudflare_email
+  api_token            = var.cloudflare_token
+  api_user_service_key = var.cloudflare_origin_ca_token
+}
 
 /*
     Kubernetes

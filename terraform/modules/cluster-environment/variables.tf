@@ -6,3 +6,4 @@ variable "environment_tag" {
 variable "app_name" {
   type = string
 }
+
