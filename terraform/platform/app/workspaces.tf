@@ -32,7 +32,7 @@ module "tfcws-production" {
     k8s_namespace = module.app-env-prod.namespace,
   })
 
-  secret_vars = merge(local.common_secret_vars, {
+  secret-vars = merge(local.common_secret_vars, {
     k8s_cert  = var.k8s_cert,
     k8s_token = module.app-env-prod.service_account_token,
   })
@@ -58,7 +58,7 @@ module "tfcws-staging" {
     k8s_namespace = module.app-env-stage.namespace,
   })
 
-  secret_vars = merge(local.common_secret_vars, {
+  secret-vars = merge(local.common_secret_vars, {
     k8s_cert  = var.k8s_cert,
     k8s_token = module.app-env-stage.service_account_token,
   })
