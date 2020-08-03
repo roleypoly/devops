@@ -25,11 +25,9 @@ module "tfcws-production" {
   tfc_oauth_token_id = var.tfc_oauth_token_id
 
   vars = merge(local.common_vars, {
-    environment_tag = "production",
-    ingress_hostname = [
-      "prd.roleypoly-nyc.kc"
-    ],
-    k8s_namespace = module.app-env-prod.namespace,
+    environment_tag  = "production",
+    ingress_hostname = "prd.roleypoly-nyc.kc"
+    k8s_namespace    = module.app-env-prod.namespace,
   })
 
   secret-vars = merge(local.common_secret_vars, {
@@ -51,11 +49,9 @@ module "tfcws-staging" {
   tfc_oauth_token_id = var.tfc_oauth_token_id
 
   vars = merge(local.common_vars, {
-    environment_tag = "staging",
-    ingress_hostname = [
-      "stg.roleypoly-nyc.kc"
-    ],
-    k8s_namespace = module.app-env-stage.namespace,
+    environment_tag  = "staging",
+    ingress_hostname = "stg.roleypoly-nyc.kc"
+    k8s_namespace    = module.app-env-stage.namespace,
   })
 
   secret-vars = merge(local.common_secret_vars, {
