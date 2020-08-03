@@ -28,7 +28,7 @@ resource "kubernetes_secret" "sa-key" {
     namespace = local.ns
     labels    = local.labels
     annotations = {
-      "kubernetes.io/service-account.name" = kubernetes_service_account.metadata.0.name
+      "kubernetes.io/service-account.name" = kubernetes_service_account.sa.metadata.0.name
     }
   }
 
@@ -43,14 +43,14 @@ resource "kubernetes_role_binding" "sa-admin-rb" {
   }
 
   subject {
-    kind     = "ServiceAccount"
-    name     = kubernetes_service_account.sa.metadata.0.name
-    apiGroup = "rbac.authorization.k8s.io"
+    kind      = "ServiceAccount"
+    name      = kubernetes_service_account.sa.metadata.0.name
+    api_group = "rbac.authorization.k8s.io"
   }
 
-  roleRef {
-    kind     = "Role"
-    name     = "admin"
-    apiGroup = "rbac.authorization.k8s.io"
+  role_ref {
+    kind      = "Role"
+    name      = "admin"
+    api_group = "rbac.authorization.k8s.io"
   }
 }
