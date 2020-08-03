@@ -31,8 +31,7 @@ module "tfcws-production" {
   })
 
   secret-vars = merge(local.common_secret_vars, {
-    k8s_cert  = var.k8s_cert,
-    k8s_token = module.app-env-prod.service_account_token,
+    k8s_cert = var.k8s_cert,
   })
 }
 
@@ -55,7 +54,23 @@ module "tfcws-staging" {
   })
 
   secret-vars = merge(local.common_secret_vars, {
-    k8s_cert  = var.k8s_cert,
-    k8s_token = module.app-env-stage.service_account_token,
+    k8s_cert = var.k8s_cert,
   })
+}
+
+// Due to quirk, we must set secret vars manually.
+resource "tfe_variable" "k8s-token-prod" {
+  key          = "k8s_token"
+  value        = module.app-env-prod.service_account_token
+  category     = "terraform"
+  workspace_id = module.tfcws-production.workspace.0.id
+  sensitive    = true
+}
+
+resource "tfe_variable" "k8s-token-stage" {
+  key          = "k8s_token"
+  value        = module.app-env-stage.service_account_token
+  category     = "terraform"
+  workspace_id = module.tfcws-staging.workspace.0.id
+  sensitive    = true
 }
