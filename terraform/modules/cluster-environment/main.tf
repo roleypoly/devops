@@ -43,14 +43,12 @@ resource "kubernetes_role_binding" "sa-admin-rb" {
   }
 
   subject {
-    kind      = "ServiceAccount"
-    name      = kubernetes_service_account.sa.metadata.0.name
-    api_group = "rbac.authorization.k8s.io"
+    kind = "ServiceAccount"
+    name = kubernetes_service_account.sa.metadata.0.name
   }
 
   role_ref {
-    kind      = "Role"
-    name      = "admin"
-    api_group = "rbac.authorization.k8s.io"
+    kind = "Role"
+    name = "admin"
   }
 }
