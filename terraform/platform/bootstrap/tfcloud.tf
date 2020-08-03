@@ -43,7 +43,7 @@ module "tfcws-app" {
   tfc_webhook_url    = var.tfc_webhook_url
   directory          = "terraform/platform/app"
   auto_apply         = false
-  dependent_modules  = ["tfc-workspace"]
+  dependent_modules  = ["tfc-workspace", "cluster-environment"]
   tfc_org            = local.tfc_org
   tfc_oauth_token_id = var.tfc_oauth_token_id
 

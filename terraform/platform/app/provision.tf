@@ -38,3 +38,16 @@ variable "cloudflare_token" { type = string }
 variable "cloudflare_email" { type = string }
 variable "cloudflare_zone_id" { type = string }
 variable "cloudflare_origin_ca_token" { type = string }
+
+/*
+    Kubernetes
+*/
+variable "k8s_endpoint" { type = string }
+variable "k8s_token" { type = string }
+variable "k8s_cert" { type = string }
+provider "kubernetes" {
+  load_config_file       = false
+  token                  = var.k8s_token
+  host                   = var.k8s_endpoint
+  cluster_ca_certificate = var.k8s_cert
+}
