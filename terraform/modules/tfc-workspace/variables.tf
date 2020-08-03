@@ -12,6 +12,11 @@ variable "vars" {
   default = {}
 }
 
+variable "env-vars" {
+  type    = map(string)
+  default = {}
+}
+
 variable "repo" {
   type = string
 }

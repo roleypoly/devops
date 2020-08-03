@@ -18,12 +18,12 @@ resource "tfe_workspace" "ws" {
 }
 
 resource "tfe_notification_configuration" "webhook" {
-  name                  = "${var.workspace-name}-webhook"
-  enabled               = true
-  destination_type      = "slack"
-  triggers              = ["run:created", "run:planning", "run:needs_attention", "run:applying", "run:completed", "run:errored"]
-  url                   = var.tfc_webhook_url
-  workspace_id = tfe_workspace.ws.id
+  name             = "${var.workspace-name}-webhook"
+  enabled          = true
+  destination_type = "slack"
+  triggers         = ["run:created", "run:planning", "run:needs_attention", "run:applying", "run:completed", "run:errored"]
+  url              = var.tfc_webhook_url
+  workspace_id     = tfe_workspace.ws.id
 }
 
 resource "tfe_variable" "vars" {
@@ -42,6 +42,16 @@ resource "tfe_variable" "sensitive" {
   key          = each.key
   value        = each.value
   category     = "terraform"
+  workspace_id = tfe_workspace.ws.id
+  sensitive    = true
+}
+
+resource "tfe_variable" "env" {
+  for_each = var.env-vars
+
+  key          = each.key
+  value        = each.value
+  category     = "env"
   workspace_id = tfe_workspace.ws.id
   sensitive    = true
 }
