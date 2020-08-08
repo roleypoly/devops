@@ -91,7 +91,8 @@ resource "kubernetes_deployment" "vault" {
       }
 
       spec {
-        service_account_name = kubernetes_service_account.vault-sa.metadata.0.name
+        service_account_name            = kubernetes_service_account.vault-sa.metadata.0.name
+        automount_service_account_token = true
 
         container {
           image = "vault:1.5.0"
