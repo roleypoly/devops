@@ -104,7 +104,7 @@ resource "kubernetes_deployment" "vault" {
 
           env {
             name = "VAULT_K8S_NAMESPACE"
-            env_from {
+            value_from {
               field_ref {
                 field_path = "metadata.namespace"
               }
@@ -113,7 +113,7 @@ resource "kubernetes_deployment" "vault" {
 
           env {
             name = "VAULT_K8S_POD_NAME"
-            env_from {
+            value_from {
               field_ref {
                 field_path = "metadata.name"
               }
