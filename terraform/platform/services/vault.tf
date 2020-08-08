@@ -45,7 +45,7 @@ resource "kubernetes_config_map" "vault-cm" {
 
       // Auto-seal setup with GCPKMS
       seal = {
-        gcpkms = {
+        gcpckms = {
           credentials = "/vault/mounted-secrets/vault-service-account.json",
           project     = var.gcp_project
           region      = "global"
