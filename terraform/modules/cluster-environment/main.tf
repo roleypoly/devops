@@ -49,7 +49,7 @@ resource "kubernetes_role_binding" "sa-admin-rb" {
   }
 
   role_ref {
-    kind      = "Role"
+    kind      = "ClusterRole"
     name      = "admin"
     api_group = "rbac.authorization.k8s.io"
   }
