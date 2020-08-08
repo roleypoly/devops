@@ -20,7 +20,7 @@ resource "kubernetes_secret" "vault-svcacct" {
   }
 
   data = {
-    "vault-service-account.json" = var.vault_gcs_token
+    "vault-service-account.json" = base64decode(var.vault_gcs_token)
   }
 }
 
