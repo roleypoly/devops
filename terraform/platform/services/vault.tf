@@ -20,7 +20,7 @@ resource "kubernetes_secret" "vault-svcacct" {
   }
 
   data = {
-    "vault-service-account.json" = var.vault_gcs_token
+    "vault-service-account.json" = base64encode(var.vault_gcs_token)
   }
 }
 
@@ -59,6 +59,11 @@ resource "kubernetes_config_map" "vault-cm" {
         tcp = {
           address = "0.0.0.0:8200"
         }
+      },
+
+      // K8s service registration
+      service_registration = {
+        kubernetes = {}
       }
     })
   }
@@ -86,13 +91,33 @@ resource "kubernetes_deployment" "vault" {
       }
 
       spec {
+        service_account_name = kubernetes_service_account.vault-sa.metadata.0.name
+
         container {
-          image = "vault:1.4.2"
+          image = "vault:1.5.0"
           name  = "vault"
 
           env {
             name  = "GOOGLE_APPLICATION_CREDENTIALS"
             value = "/vault/mounted-secrets/vault-service-account.json"
+          }
+
+          env {
+            name = "VAULT_K8S_NAMESPACE"
+            env_from {
+              field_ref {
+                field_path = "metadata.namespace"
+              }
+            }
+          }
+
+          env {
+            name = "VAULT_K8S_POD_NAME"
+            env_from {
+              field_ref {
+                field_path = "metadata.name"
+              }
+            }
           }
 
           volume_mount {
@@ -135,5 +160,47 @@ resource "kubernetes_deployment" "vault" {
         }
       }
     }
+  }
+}
+
+resource "kubernetes_service_account" "vault-sa" {
+  metadata {
+    namespace = local.vaultNs
+    name      = "vault"
+    labels    = local.vaultLabels
+  }
+}
+
+resource "kubernetes_role" "vault-sa-role" {
+  metadata {
+    namespace = local.vaultNs
+    name      = "vault"
+    labels    = local.vaultLabels
+  }
+
+  rule {
+    api_groups = [""]
+    resources  = ["pods"]
+    verbs      = ["get", "update"]
+  }
+}
+
+resource "kubernetes_role_binding" "vault-sa-rb" {
+  metadata {
+    namespace = local.vaultNs
+    name      = "vault-rb"
+    labels    = local.vaultLabels
+  }
+
+  role_ref {
+    api_group = "rbac.authorization.k8s.io"
+    kind      = "Role"
+    name      = kubernetes_role.vault-sa-role.metadata.0.name
+  }
+
+  subject {
+    kind      = "ServiceAccount"
+    name      = kubernetes_service_account.vault-sa.metadata.0.name
+    namespace = local.vaultNs
   }
 }
