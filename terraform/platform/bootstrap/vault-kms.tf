@@ -18,6 +18,11 @@ data "google_iam_policy" "vault" {
     role    = "roles/editor"
     members = local.iam_members
   }
+
+  binding {
+    role    = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
+    members = local.iam_members
+  }
 }
 
 resource "google_kms_key_ring_iam_policy" "vault-binding" {
