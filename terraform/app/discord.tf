@@ -26,8 +26,6 @@ resource "kubernetes_deployment" "discord" {
       }
 
       spec {
-        restart_policy = "Never"
-
         container {
           image = "roleypoly/discord:${local.tags.discord}"
           name  = "discord"
